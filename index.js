@@ -162,13 +162,49 @@ exports.reduce = (memo, items, transform) => {
 
 };
 
-// Reduce obj
+// Reduce object
 exports.reduce.obj = (memo, obj, transform) => {
 
 	const keys = Object.keys(obj);
 
 	return exports.reduce(memo, keys, (memo, key) => {
 		return transform(memo, obj[key], key);
+	});
+
+};
+
+// Filter array
+exports.filter = (items, tester) => {
+
+	return new Promise((resolv, reject) => {
+
+		let result = [];
+
+		const next = (idx) => {
+			if (idx === items.length) return resolv(result);
+			Promise.resolve(tester(items[idx], idx))
+				.then((include) => {
+					if (include) result.push(items[idx]);
+				})
+				.then(() => {
+					next(idx + 1);
+				})
+				.catch(reject);
+		};
+
+		next(0);
+
+	});
+
+};
+
+// Filter object
+exports.filter.obj = (obj, tester) => {
+
+	const keys = Object.keys(obj);
+
+	return exports.filter(keys, (key) => {
+		return tester(obj[key], key);
 	});
 
 };
