@@ -1,0 +1,19 @@
+{
+  "name": "loopie",
+  "version": "1.0.0",
+  "description": "Promisified async loops.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kristian Trenskow <trenskow@me.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trenskow/loopie.git"
+  },
+  "bugs": {
+    "url": "https://github.com/trenskow/loopie/issues"
+  },
+  "homepage": "https://github.com/trenskow/loopie#readme"
+}
