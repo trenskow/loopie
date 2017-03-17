@@ -163,7 +163,7 @@ exports.reduce.obj = (memo, obj, transform) => {
 };
 
 // Filter array
-exports.filter = (items, tester, adder) => {
+exports.filter = (items, tester) => {
 
 	return new Promise((resolv, reject) => {
 
@@ -173,7 +173,7 @@ exports.filter = (items, tester, adder) => {
 			if (idx === items.length) return resolv(result);
 			Promise.resolve(tester(items[idx], idx))
 				.then((include) => {
-					if (include) result.push(adder ? adder(items[idx]) : items[idx]);
+					if (include) result.push(items[idx]);
 				})
 				.then(() => {
 					next(idx + 1);
