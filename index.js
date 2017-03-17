@@ -37,17 +37,6 @@ exports.group = (items, tester) => {
 
 };
 
-// Group object.
-exports.group.obj = (obj, tester) => {
-
-	const keys = Object.keys(obj);
-
-	return exports.group(keys, (key) => {
-		return tester(obj[key], key);
-	});
-
-};
-
 // Map array
 exports.map = (items, mapper) => {
 
@@ -174,7 +163,7 @@ exports.reduce.obj = (memo, obj, transform) => {
 };
 
 // Filter array
-exports.filter = (items, tester) => {
+exports.filter = (items, tester, adder) => {
 
 	return new Promise((resolv, reject) => {
 
@@ -184,7 +173,7 @@ exports.filter = (items, tester) => {
 			if (idx === items.length) return resolv(result);
 			Promise.resolve(tester(items[idx], idx))
 				.then((include) => {
-					if (include) result.push(items[idx]);
+					if (include) result.push(adder ? adder(items[idx]) : items[idx]);
 				})
 				.then(() => {
 					next(idx + 1);
@@ -194,17 +183,6 @@ exports.filter = (items, tester) => {
 
 		next(0);
 
-	});
-
-};
-
-// Filter object
-exports.filter.obj = (obj, tester) => {
-
-	const keys = Object.keys(obj);
-
-	return exports.filter(keys, (key) => {
-		return tester(obj[key], key);
 	});
 
 };
