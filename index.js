@@ -135,7 +135,7 @@ exports.reduce = (memo, items, transform) => {
 
 		const next = (idx) => {
 			if (idx === items.length) return resolv(result);
-			Promise.resolve(transform(memo, items[idx], idx))
+			Promise.resolve(transform(result, items[idx], idx))
 				.then((memo) => {
 					result = memo;
 				})
