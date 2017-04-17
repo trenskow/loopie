@@ -186,3 +186,42 @@ exports.filter = (items, tester) => {
 	});
 
 };
+
+exports.indexOf = (items, tester) => {
+
+	return new Promise((resolv, reject) => {
+
+		const next = (idx) => {
+			if (idx === items.length) return resolv(-1);
+			Promise.resolve(tester(items[idx], idx))
+				.then((match) => {
+					if (!match) return next(idx + 1);
+					resolv(idx);
+				})
+				.catch(reject);
+		};
+
+		next(0);
+
+	});
+
+};
+
+exports.unique = (items, tester) => {
+
+	let result = [];
+
+	return exports.each(items, (item1) => {
+		return exports.indexOf(result, (item2) => {
+			return tester(item1, item2);
+		})
+		.then((idx) => {
+			if (idx !== -1) return;
+			result.push(item1);
+		});
+	})
+	.then(() => {
+		return result;
+	});
+
+};
